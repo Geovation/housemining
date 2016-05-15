@@ -1,12 +1,22 @@
 import scala.collection.immutable.TreeMap
 
-class LandRegistryPricePaidData(private val ppds: List[LandRegistryPricePaidDataItem] = List() ) {
-
+package object PaidDatas {
   type PaidDatas = TreeMap[String, LandRegistryPricePaidDataItem]
+}
 
-  val paidDatas = ppds.map(t => t.transactionUniqueIdentifier -> t)(collection.breakOut) : PaidDatas
 
-  def merge(ppds: List[LandRegistryPricePaidDataItem]): LandRegistryPricePaidData = {
-    new LandRegistryPricePaidData(ppds)
+class LandRegistryPricePaidData(val paidDatas: PaidDatas.PaidDatas ) {
+
+  def this(ppds: List[LandRegistryPricePaidDataItem] = List() ) {
+    this(ppds.map(t => t.transactionUniqueIdentifier -> t)(collection.breakOut) : PaidDatas.PaidDatas)
+  } 
+
+  
+  def merge(ppds: List[LandRegistryPricePaidDataItem]): LandRegistryPricePaidData = { 
+    val newListOfPpds = ppds.foldLeft(paidDatas)((z, t) => {
+      z + (t.transactionUniqueIdentifier -> t)
+    })
+     
+    new LandRegistryPricePaidData(newListOfPpds)
   }
 }
