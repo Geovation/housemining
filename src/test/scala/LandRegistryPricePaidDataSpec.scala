@@ -59,4 +59,25 @@ class LandRegistryPricePaidDataSpec extends FlatSpec with ShouldMatchers {
     paidData2.paidDatas should equal (paidDataAdd.paidDatas)      
   }
   
+  "merge" should "delete a value" in {
+    val el1 = new LandRegistryPricePaidDataItem("1",1)
+    val el2 = new LandRegistryPricePaidDataItem("2",2)
+    val el3 = new LandRegistryPricePaidDataItem("3",2)
+    val el1new = new LandRegistryPricePaidDataItem("1",10, 'D')
+
+    val list1 = List(el1, el2)
+    val list2 = List(el3, el1new)
+    val listExpected = List(el2, el3)
+
+    val paidData1 = new LandRegistryPricePaidData(list1)
+    val paidData2 = paidData1.merge(list2)
+    val paidDataExpected = new LandRegistryPricePaidData(listExpected)
+    
+
+//    info(listAdd + "")
+    
+    paidData2.paidDatas should equal (paidDataExpected.paidDatas) 
+  }
+
+  
 }
