@@ -52,10 +52,7 @@ class LandRegistryPricePaidDataSpec extends FlatSpec with ShouldMatchers {
     val paidData1 = new LandRegistryPricePaidData(list1)
     val paidData2 = paidData1.merge(list2)
     val paidDataAdd = new LandRegistryPricePaidData(listAdd)
-    
-
-//    info(listAdd + "")
-    
+        
     paidData2.paidDatas should equal (paidDataAdd.paidDatas)      
   }
   
@@ -72,12 +69,32 @@ class LandRegistryPricePaidDataSpec extends FlatSpec with ShouldMatchers {
     val paidData1 = new LandRegistryPricePaidData(list1)
     val paidData2 = paidData1.merge(list2)
     val paidDataExpected = new LandRegistryPricePaidData(listExpected)
+        
+    paidData2.paidDatas should equal (paidDataExpected.paidDatas) 
+  }
+
+  "merge" should "return the right values" in {
+    val el11 = new LandRegistryPricePaidDataItem("1",11)
+    val el12 = new LandRegistryPricePaidDataItem("2",12)
+    val el13 = new LandRegistryPricePaidDataItem("3",13)
+
+    val el21 = new LandRegistryPricePaidDataItem("1",21)
+    val el22 = new LandRegistryPricePaidDataItem("2",22, 'D')
+    val el23 = new LandRegistryPricePaidDataItem("4",24)
+
+    
+    val list1 = List(el11, el12, el13)
+    val list2 = List(el21, el22, el23)
+    val listExpected = List(el21, el13, el23)
+
+    val paidData1 = new LandRegistryPricePaidData(list1)
+    val paidData2 = paidData1.merge(list2)
+    val paidDataExpected = new LandRegistryPricePaidData(listExpected)
     
 
 //    info(listAdd + "")
     
     paidData2.paidDatas should equal (paidDataExpected.paidDatas) 
-  }
-
+  }  
   
 }
