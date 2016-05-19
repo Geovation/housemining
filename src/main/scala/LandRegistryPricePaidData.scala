@@ -15,7 +15,7 @@ class LandRegistryPricePaidData(val paidDatas: PaidDatas.PaidDatas ) {
   def merge(ppds: List[LandRegistryPricePaidDataItem]): LandRegistryPricePaidData = { 
     val newListOfPpds = ppds.foldLeft(paidDatas)((z, t) => 
       t.recordStatus match {
-        case 'D' => z - t.transactionUniqueIdentifier
+        case "D" => z - t.transactionUniqueIdentifier
         case _   => z + (t.transactionUniqueIdentifier -> t)
       }
     ) 
