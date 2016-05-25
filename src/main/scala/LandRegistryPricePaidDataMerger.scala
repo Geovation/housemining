@@ -1,16 +1,49 @@
-import scala.io.Source
-
+import java.nio.file.{Paths, Files}
+import sys.process._
+import java.net.URL
 import java.io._
 
 import com.github.tototoshi.csv._
 
+object LandRegistryPricePaidDataMerger extends App {
 
-object LandRegistryPricePaidDataMerger {
-//  val CurrentCsv = "LandRegistryPricePaidData.csv"
-//  val InputCsv = "Input.csv"
-//  val CompleteUrl = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-complete.csv"
-//  val MonthlyUrl = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update.txt"
-  
+  val CurrentCsv = "LandRegistryPricePaidData.csv"
+  val InputCsv = "Input.csv"
+  val CompleteUrl = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-complete.csv"
+  val MonthlyUrl = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update.csv"
+
+  // Get the big one ? (if CurrentCsv is not there)
+  if (shouldGetComplete(CurrentCsv)) download(CompleteUrl, CurrentCsv)
+
+  // Get and merge a monthly one ? (based on CurrentCsv update time)
+  if (shouldGetMonthly(CurrentCsv)) download(MonthlyUrl, CurrentCsv)
+
+  // Daemon ? and run it again (next month)
+  // ..
+  // TODO
+
+  def download(fromUrl: String, toFile: String): Unit = {
+    new URL(fromUrl) #> new File(toFile) !!
+  }
+
+  /**
+    * In order to get the complete file, currentCsv should not exist
+    * @param currentCsv
+    * @return
+    */
+  def shouldGetComplete(currentCsv: String): Boolean = !Files.exists(Paths.get(currentCsv))
+
+
+  /**
+    * In order to get a monthy file, currentCsv modification date must be older than 1 month
+    * @param currentCsv
+    * @return
+    */
+  def shouldGetMonthly(currentCsv: String): Boolean = {
+    // TODO
+    false
+  }
+
   def mergeCsv(currentCsv: File, inputCsv: File) {
     
     // read currentCsv

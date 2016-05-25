@@ -67,4 +67,14 @@ class LandRegistryPricePaidDataMergerSpec extends FlatSpec with ShouldMatchers {
 
       mapData should equal (mapDest)
     }
+
+    "shouldGetComplete" should "return false if the file exist" in {
+      val fileName = getClass.getResource("/data.csv").getPath
+      LandRegistryPricePaidDataMerger.shouldGetComplete(fileName) should be (false)
+    }
+
+  "shouldGetComplete" should "return true if the file does not exist" in {
+    val fileName = "unexisting.csv"
+    LandRegistryPricePaidDataMerger.shouldGetComplete(fileName) should be (true)
+  }
   }
