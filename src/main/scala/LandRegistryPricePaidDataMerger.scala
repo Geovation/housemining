@@ -1,9 +1,11 @@
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
+
 import sys.process._
 import java.net.URL
 import java.io._
 
 import com.github.tototoshi.csv._
+import org.joda.time.DateTime
 
 object LandRegistryPricePaidDataMerger extends App {
 
@@ -22,9 +24,7 @@ object LandRegistryPricePaidDataMerger extends App {
   // ..
   // TODO
 
-  def download(fromUrl: String, toFile: String): Unit = {
-    new URL(fromUrl) #> new File(toFile) !!
-  }
+  def download(fromUrl: String, toFile: String): Unit = new URL(fromUrl) #> new File(toFile) !!
 
   /**
     * In order to get the complete file, currentCsv should not exist
@@ -40,8 +40,11 @@ object LandRegistryPricePaidDataMerger extends App {
     * @return
     */
   def shouldGetMonthly(currentCsv: String): Boolean = {
-    // TODO
-    false
+    val file = new File(currentCsv)
+    val now = DateTime.now
+    val firstDayOfThisMonth = new DateTime(now.year.get, now.monthOfYear.get, 1, 0, 0)
+
+    file.lastModified < firstDayOfThisMonth.getMillis
   }
 
   def mergeCsv(currentCsv: File, inputCsv: File) {
