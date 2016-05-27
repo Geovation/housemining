@@ -90,7 +90,7 @@ class LandRegistryPricePaidDataMergerSpec extends FlatSpec with ShouldMatchers {
 
       // create file
       val path = Paths.get(destDir, "file.csv")
-      Files.delete(path)
+      if (Files.exists(path)) Files.delete(path)
       val file = Files.createFile(path).toFile
 
       // change last modified time to the last day of the previous month
@@ -109,7 +109,7 @@ class LandRegistryPricePaidDataMergerSpec extends FlatSpec with ShouldMatchers {
 
       // create file
       val path = Paths.get(destDir, "file.csv")
-      Files.delete(path)
+      if (Files.exists(path)) Files.delete(path)
       val file = Files.createFile(path).toFile
 
       // change last modified time to the last day of the previous month
