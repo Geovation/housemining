@@ -17,10 +17,10 @@ object LandRegistryPricePaidDataMerger extends App {
   // Get the big one ? (if CurrentCsv is not there)
   if (shouldGetComplete(CurrentCsv)) download(CompleteUrl, CurrentCsv)
 
-  // Get and merge a monthly one ? (based on CurrentCsv update time)
-  if (shouldGetMonthly(MonthlyCsv)) download(MonthlyUrl, MonthlyCsv)
+//  // Get and merge a monthly one ? (based on CurrentCsv update time)
+//  if (shouldGetMonthly(MonthlyCsv)) download(MonthlyUrl, MonthlyCsv)
 
-  mergeCsv(new File(CurrentCsv), new File(MonthlyCsv))
+//  mergeCsv(new File(CurrentCsv), new File(MonthlyCsv))
 
   // Daemon ? and run it again (next month)
   // ..
