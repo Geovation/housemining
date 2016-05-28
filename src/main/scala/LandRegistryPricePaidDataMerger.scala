@@ -1,7 +1,7 @@
 import java.nio.file.{Files, Paths}
 
-import sys.process._
-import java.net.URL
+import scala.sys.process._
+
 import java.io._
 
 import com.github.tototoshi.csv._
@@ -27,13 +27,17 @@ object LandRegistryPricePaidDataMerger extends App {
   // TODO
 
   def download(fromUrl: String, toFile: String): Unit = {
-    println("Downloading " + toFile + " from " + fromUrl)
-    new URL(fromUrl) #> new File(toFile) !!;
+    println("Downloading " + toFile + " from " + fromUrl + " and filtering only GRETER LONDON addresses")
+
+    val ret = ("curl -L " + fromUrl) #| "grep LONDON\",\"A\"" #> new File(toFile) !!
+
+    //new URL(fromUrl)  #> new File(toFile) !!;
     println(toFile + " downloaded")
   }
 
   /**
     * In order to get the complete file, currentCsv should not exist
+    *
     * @param currentCsv
     * @return
     */
@@ -42,6 +46,7 @@ object LandRegistryPricePaidDataMerger extends App {
 
   /**
     * In order to get a monthy file, currentCsv modification date must be older than 1 month
+    *
     * @param currentCsv
     * @return
     */
