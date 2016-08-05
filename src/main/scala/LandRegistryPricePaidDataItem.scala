@@ -1,5 +1,5 @@
 /**
-see https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads
+https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads
 https://www.gov.uk/guidance/about-the-price-paid-data
 */ 
 case class LandRegistryPricePaidDataItem(
